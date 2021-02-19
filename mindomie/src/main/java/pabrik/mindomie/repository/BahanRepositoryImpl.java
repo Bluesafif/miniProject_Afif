@@ -1,0 +1,66 @@
+package pabrik.mindomie.repository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+import pabrik.mindomie.model.Bahan;
+
+import java.util.List;
+import java.util.UUID;
+
+@Repository("BahanRepository")
+public class BahanRepositoryImpl implements BahanRepository {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Override
+    public void saveBahan(Bahan bahan) {
+        String uuid = String.valueOf(UUID.randomUUID());
+        jdbcTemplate.update("INSERT INTO bahan (idBahan, namaBahan, hargaBahan, qty, statusBahan) VALUES (?,?,?,?,1)",
+                uuid, bahan.getNamaBahan(), bahan.getQty(), bahan.getHargaBahan());
+    }
+
+    @Override
+    public void updateBahan(Bahan bahan) {
+        jdbcTemplate.update("UPDATE bahan SET namaBahan =?, hargaBahan=?, qty=?",
+                bahan.getNamaBahan(), bahan.getHargaBahan(), bahan.getQty());
+    }
+
+    @Override
+    public List<Bahan> findAll() {
+        return jdbcTemplate.query("SELECT * FROM bahan",
+                (rs, rowNum)->
+                        new Bahan(
+                                rs.getString("idBahan"),
+                                rs.getString("namaBahan"),
+                                rs.getInt("qty"),
+                                rs.getInt("hargaBahan"),
+                                rs.getBoolean("statusBahan")
+                        )
+        );
+    }
+
+    @Override
+    public Bahan findById(String idBahan) {
+        return jdbcTemplate.queryForObject("SELECT * FROM bahan WHERE idBahan="+idBahan+"",
+                (rs, rowNum)->
+                        new Bahan(
+                                rs.getString("idBahan"),
+                                rs.getString("namaBahan"),
+                                rs.getInt("qty"),
+                                rs.getInt("hargaBahan"),
+                                rs.getBoolean("statusBahan")
+                        )
+        );
+    }
+
+    @Override
+    public boolean isBahanExist(String namaBahan) {
+        String query = "SELECT COUNT(*) FROM bahan WHERE namaBahan =?";
+        int count = jdbcTemplate.queryForObject(query, Integer.class, namaBahan);
+        return count > 0;
+    }
+
+
+}
