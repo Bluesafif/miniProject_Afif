@@ -94,4 +94,29 @@ public class PackagingController {
         }
         return new ResponseEntity<>(packaging, HttpStatus.OK);
     }
+
+    //------------------Switching Status One Data Only------------------//
+
+    @RequestMapping(value = "packaging/status/{idPackaging}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateStatusPackaging(@PathVariable("idPackaging") String idPackaging) {
+        logger.info("Mengubah status packaging dengan id {} menjadi disabled", idPackaging);
+
+        Packaging packaging1 = packagingService.findById(idPackaging);
+
+        if (packaging1 == null) {
+            logger.error("Tidak dapat mengubah data Packaging. Packaging dengan id {} tidak tersedia.", idPackaging);
+            return new ResponseEntity<>(new CustomErrorType("Tidak dapat mengubah data packaging. Packaging dengan id "
+                    + idPackaging + " tidak tersedia."),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        if (packaging1.isStatusPackaging() == true){
+            packaging1.setStatusPackaging(false);
+        }else{
+            packaging1.setStatusPackaging(true);
+        }
+
+        packagingService.status(packaging1);
+        return new ResponseEntity<>("Status Berhasil Diubah!", HttpStatus.OK);
+    }
 }

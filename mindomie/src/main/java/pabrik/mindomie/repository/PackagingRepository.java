@@ -11,9 +11,11 @@ public interface PackagingRepository {
 
     List<Packaging> findAll();
 
-    Packaging findById(String idpackaging);
+    Packaging findById(String idPackaging);
 
-    boolean isPackagingExist (String namapackaging);
+    boolean isPackagingExist (String namaPackaging);
 
     List<Packaging> findAllAvailable();
+
+    void status(Packaging packaging);
 }

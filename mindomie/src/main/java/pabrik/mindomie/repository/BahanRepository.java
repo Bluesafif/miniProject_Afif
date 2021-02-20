@@ -16,4 +16,6 @@ public interface BahanRepository {
     boolean isBahanExist (String namaBahan);
 
     List<Bahan> findAllAvailable();
+
+    void status(Bahan bahan);
 }

@@ -3,7 +3,6 @@ package pabrik.mindomie.repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import pabrik.mindomie.model.Bahan;
 import pabrik.mindomie.model.Packaging;
 
 import java.util.List;
@@ -72,5 +71,11 @@ public class PackagingRepositoryImpl implements PackagingRepository{
                                 rs.getBoolean("statusPackaging")
                         )
         );
+    }
+
+    @Override
+    public void status(Packaging packaging) {
+        jdbcTemplate.update("UPDATE packaging SET statusPackaging=? WHERE idPackaging=?",
+                packaging.isStatusPackaging(), packaging.getIdPackaging());
     }
 }

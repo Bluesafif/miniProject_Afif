@@ -1,6 +1,5 @@
 package pabrik.mindomie.service;
 
-import pabrik.mindomie.model.Bahan;
 import pabrik.mindomie.model.Packaging;
 
 import java.util.List;
@@ -17,4 +16,6 @@ public interface PackagingService {
     boolean isPackagingExist (String namapackaging);
 
     List<Packaging> findAllAvailable();
+
+    void status(Packaging packaging);
 }

@@ -76,4 +76,9 @@ public class BahanRepositoryImpl implements BahanRepository {
         );
     }
 
+    @Override
+    public void status(Bahan bahan) {
+        jdbcTemplate.update("UPDATE bahan SET statusBahan=? WHERE idBahan=?",
+                bahan.isStatusBahan(), bahan.getIdBahan());
+    }
 }

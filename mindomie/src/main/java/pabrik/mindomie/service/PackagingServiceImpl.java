@@ -56,4 +56,11 @@ public class PackagingServiceImpl implements PackagingService{
         List<Packaging> packagingListAvailable = packagingRepository.findAllAvailable();
         return packagingListAvailable;
     }
+
+    @Override
+    public void status(Packaging packaging) {
+        synchronized (this){
+            packagingRepository.status(packaging);
+        }
+    }
 }

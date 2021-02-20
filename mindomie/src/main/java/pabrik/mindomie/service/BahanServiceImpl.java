@@ -57,4 +57,11 @@ public class BahanServiceImpl implements BahanService{
         List<Bahan> bahanListAvailable = bahanRepository.findAllAvailable();
         return bahanListAvailable;
     }
+
+    @Override
+    public void status(Bahan bahan) {
+        synchronized (this){
+            bahanRepository.status(bahan);
+        }
+    }
 }

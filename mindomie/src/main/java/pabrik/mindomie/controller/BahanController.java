@@ -79,11 +79,10 @@ public class BahanController {
         bahan1.setNamaBahan(bahan.getNamaBahan());
         bahan1.setHargaBahan(bahan.getHargaBahan());
         bahan1.setQty(bahan.getQty());
-        boolean statusbahan = true;
         if (bahan.getQty() == 0){
-            bahan1.setStatusBahan(statusbahan = false);
+            bahan1.setStatusBahan(false);
         }else{
-            bahan1.setStatusBahan(statusbahan);
+            bahan1.setStatusBahan(true);
         }
 
         bahanService.updateBahan(bahan1);
@@ -101,5 +100,30 @@ public class BahanController {
             return new ResponseEntity<>(new CustomErrorType("Bahan dengan id " + idBahan  + " tidak ada."), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(bahan, HttpStatus.OK);
+    }
+
+    //------------------Switching Status One Data Only------------------//
+
+    @RequestMapping(value = "/bahanbaku/status/{idBahan}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateStatusBahan(@PathVariable("idBahan") String idBahan) {
+        logger.info("Mengubah status bahan dengan id {} menjadi disabled", idBahan);
+
+        Bahan bahan1 = bahanService.findById(idBahan);
+
+        if (bahan1 == null) {
+            logger.error("Tidak dapat mengubah data Bahan. Bahan dengan id {} tidak tersedia.", idBahan);
+            return new ResponseEntity<>(new CustomErrorType("Tidak dapat mengubah data bahan. Bahan Baku dengan id "
+                    + idBahan + " tidak tersedia."),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        if (bahan1.isStatusBahan() == true){
+            bahan1.setStatusBahan(false);
+        }else{
+            bahan1.setStatusBahan(true);
+        }
+
+        bahanService.status(bahan1);
+        return new ResponseEntity<>("Status Berhasil Diubah!", HttpStatus.OK);
     }
 }
