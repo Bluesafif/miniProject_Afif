@@ -51,4 +51,10 @@ public class BahanServiceImpl implements BahanService{
     public boolean isBahanExist(String namaBahan) {
         return bahanRepository.isBahanExist(namaBahan);
     }
+
+    @Override
+    public List<Bahan> findAllAvailable() {
+        List<Bahan> bahanListAvailable = bahanRepository.findAllAvailable();
+        return bahanListAvailable;
+    }
 }

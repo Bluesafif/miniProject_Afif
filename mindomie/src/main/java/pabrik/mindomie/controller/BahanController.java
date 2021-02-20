@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pabrik.mindomie.model.Bahan;
@@ -34,6 +33,17 @@ public class BahanController {
         return new ResponseEntity<>(bahanList, HttpStatus.OK);
     }
 
+    //------------------Get All Data is Available------------------//
+
+    @RequestMapping(value = "/bahanbaku/available", method = RequestMethod.GET)
+    public ResponseEntity<List<Bahan>> listAllBahanAvailable(){
+        List<Bahan> bahanListAvailable = bahanService.findAllAvailable();
+        if (bahanListAvailable.isEmpty()) {
+            return new ResponseEntity<>(bahanListAvailable, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(bahanListAvailable, HttpStatus.OK);
+    }
+
     //------------------Save a Data------------------//
 
     @RequestMapping(value = "/bahanbaku", method = RequestMethod.POST)
@@ -48,7 +58,7 @@ public class BahanController {
 
         bahanService.saveBahan(bahan);
 
-        return new ResponseEntity<>(bahan, HttpStatus.CREATED);
+        return new ResponseEntity<>("Data Berhasil Ditambahkan!", HttpStatus.CREATED);
     }
 
     //------------------Update a Data------------------//
@@ -69,8 +79,27 @@ public class BahanController {
         bahan1.setNamaBahan(bahan.getNamaBahan());
         bahan1.setHargaBahan(bahan.getHargaBahan());
         bahan1.setQty(bahan.getQty());
+        boolean statusbahan = true;
+        if (bahan.getQty() == 0){
+            bahan1.setStatusBahan(statusbahan = false);
+        }else{
+            bahan1.setStatusBahan(statusbahan);
+        }
 
         bahanService.updateBahan(bahan1);
-        return new ResponseEntity<>(bahan1, HttpStatus.OK);
+        return new ResponseEntity<>("Data Berhasil Diubah!", HttpStatus.OK);
+    }
+
+    //------------------Get One Data Only------------------//
+
+    @RequestMapping(value = "/bahanbaku/{idBahan}", method = RequestMethod.GET)
+    public ResponseEntity<?> getProduct(@PathVariable("idBahan") String idBahan) {
+        logger.info("Mencari bahan dengan id {}", idBahan);
+        Bahan bahan = bahanService.findById(idBahan);
+        if (bahan == null) {
+            logger.error("Bahan dengan id {} tidak ada.", idBahan);
+            return new ResponseEntity<>(new CustomErrorType("Bahan dengan id " + idBahan  + " tidak ada."), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(bahan, HttpStatus.OK);
     }
 }

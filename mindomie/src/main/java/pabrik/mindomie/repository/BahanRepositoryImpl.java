@@ -18,13 +18,13 @@ public class BahanRepositoryImpl implements BahanRepository {
     public void saveBahan(Bahan bahan) {
         String uuid = String.valueOf(UUID.randomUUID());
         jdbcTemplate.update("INSERT INTO bahan (idBahan, namaBahan, hargaBahan, qty, statusBahan) VALUES (?,?,?,?,1)",
-                uuid, bahan.getNamaBahan(), bahan.getQty(), bahan.getHargaBahan());
+                uuid, bahan.getNamaBahan(), bahan.getHargaBahan(), bahan.getQty());
     }
 
     @Override
     public void updateBahan(Bahan bahan) {
-        jdbcTemplate.update("UPDATE bahan SET namaBahan =?, hargaBahan=?, qty=?",
-                bahan.getNamaBahan(), bahan.getHargaBahan(), bahan.getQty());
+        jdbcTemplate.update("UPDATE bahan SET namaBahan =?, hargaBahan=?, qty=?, statusBahan=? WHERE idBahan=?",
+                bahan.getNamaBahan(), bahan.getHargaBahan(), bahan.getQty(), bahan.isStatusBahan(), bahan.getIdBahan());
     }
 
     @Override
@@ -62,5 +62,18 @@ public class BahanRepositoryImpl implements BahanRepository {
         return count > 0;
     }
 
+    @Override
+    public List<Bahan> findAllAvailable() {
+        return jdbcTemplate.query("SELECT * FROM bahan WHERE statusBahan=1",
+                (rs, rowNum)->
+                        new Bahan(
+                                rs.getString("idBahan"),
+                                rs.getString("namaBahan"),
+                                rs.getInt("qty"),
+                                rs.getInt("hargaBahan"),
+                                rs.getBoolean("statusBahan")
+                        )
+        );
+    }
 
 }

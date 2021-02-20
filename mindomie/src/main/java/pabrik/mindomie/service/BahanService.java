@@ -14,4 +14,6 @@ public interface BahanService {
     Bahan findById(String idBahan);
 
     boolean isBahanExist (String namaBahan);
+
+    List<Bahan> findAllAvailable();
 }

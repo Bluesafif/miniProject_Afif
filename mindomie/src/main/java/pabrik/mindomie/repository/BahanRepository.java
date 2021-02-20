@@ -14,4 +14,6 @@ public interface BahanRepository {
     Bahan findById(String idBahan);
 
     boolean isBahanExist (String namaBahan);
+
+    List<Bahan> findAllAvailable();
 }
