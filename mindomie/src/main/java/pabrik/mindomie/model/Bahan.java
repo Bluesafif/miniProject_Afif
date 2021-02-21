@@ -6,6 +6,16 @@ public class Bahan {
     private int qty;
     private int hargaBahan;
     private boolean statusBahan;
+    private int qtyPemakaian;
+
+    public Bahan(String idBahan, String namaBahan, int qty, int hargaBahan, boolean statusBahan, int qtyPemakaian) {
+        this.idBahan = idBahan;
+        this.namaBahan = namaBahan;
+        this.qty = qty;
+        this.hargaBahan = hargaBahan;
+        this.statusBahan = statusBahan;
+        this.qtyPemakaian = qtyPemakaian;
+    }
 
     public Bahan(String idBahan, String namaBahan, int qty, int hargaBahan, boolean statusBahan) {
         this.idBahan = idBahan;
@@ -53,5 +63,13 @@ public class Bahan {
 
     public void setStatusBahan(boolean statusBahan) {
         this.statusBahan = statusBahan;
+    }
+
+    public int getQtyPemakaian() {
+        return qtyPemakaian;
+    }
+
+    public void setQtyPemakaian(int qtyPemakaian) {
+        this.qtyPemakaian = qtyPemakaian;
     }
 }
