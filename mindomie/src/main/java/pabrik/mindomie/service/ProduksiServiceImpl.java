@@ -1,6 +1,7 @@
 package pabrik.mindomie.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import pabrik.mindomie.model.Produksi;
 import pabrik.mindomie.repository.ProduksiRepository;
@@ -22,7 +23,9 @@ public class ProduksiServiceImpl implements ProduksiService {
 
     @Override
     public void updateProduksi(Produksi produksi) {
-
+        synchronized (this){
+            produksiRepository.updateProduksi(produksi);
+        }
     }
 
     @Override
@@ -33,7 +36,14 @@ public class ProduksiServiceImpl implements ProduksiService {
 
     @Override
     public Produksi findById(String idProduksi) {
-        return null;
+        Produksi produksi;
+        try{
+            produksi = produksiRepository.findById(idProduksi);
+        }catch (EmptyResultDataAccessException e){
+            System.out.println(e);
+            produksi = null;
+        }
+        return produksi;
     }
 
     @Override
@@ -41,5 +51,17 @@ public class ProduksiServiceImpl implements ProduksiService {
         synchronized (this){
             produksiRepository.status(produksi);
         }
+    }
+
+    @Override
+    public List<Produksi> findAllAvailable() {
+        List<Produksi> produksiListAvailable = produksiRepository.findAllAvailable();
+        return produksiListAvailable;
+    }
+
+    @Override
+    public List<Produksi> findAllLaporan() {
+        List<Produksi> laporanList = produksiRepository.findAllLaporan();
+        return laporanList;
     }
 }

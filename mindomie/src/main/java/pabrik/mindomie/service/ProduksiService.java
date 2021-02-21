@@ -14,4 +14,8 @@ public interface ProduksiService {
     Produksi findById(String idProduksi);
 
     void status(Produksi produksi);
+
+    List<Produksi> findAllAvailable();
+
+    List<Produksi> findAllLaporan();
 }

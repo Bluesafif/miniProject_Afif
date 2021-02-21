@@ -14,4 +14,8 @@ public interface ProduksiRepository {
     Produksi findById(String idBOP);
 
     void status(Produksi produksi);
+
+    List<Produksi> findAllAvailable();
+
+    List<Produksi> findAllLaporan();
 }

@@ -12,6 +12,17 @@ public class Produksi {
     private boolean statusProduksi;
     List<Bahan> bahanList;
 
+    public Produksi() {
+    }
+
+    public Produksi(String idBOP, Date tglProduksi, float totalKm, String idEkspedisi, String idPackaging) {
+        this.idBOP = idBOP;
+        this.tglProduksi = tglProduksi;
+        this.totalKm = totalKm;
+        this.idEkspedisi = idEkspedisi;
+        this.idPackaging = idPackaging;
+    }
+
     public Produksi(String idBOP, Date tglProduksi, float totalKm, String idEkspedisi, String idPackaging, boolean statusProduksi) {
         this.idBOP = idBOP;
         this.tglProduksi = tglProduksi;
