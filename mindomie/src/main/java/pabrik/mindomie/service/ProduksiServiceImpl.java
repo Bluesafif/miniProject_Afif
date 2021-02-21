@@ -35,4 +35,11 @@ public class ProduksiServiceImpl implements ProduksiService {
     public Produksi findById(String idProduksi) {
         return null;
     }
+
+    @Override
+    public void status(Produksi produksi) {
+        synchronized (this){
+            produksiRepository.status(produksi);
+        }
+    }
 }

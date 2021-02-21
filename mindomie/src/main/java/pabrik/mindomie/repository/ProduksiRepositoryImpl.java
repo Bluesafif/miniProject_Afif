@@ -68,7 +68,40 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
     }
 
     @Override
-    public Produksi findById(String idProduksi) {
-        return null;
+    public Produksi findById(String idBOP) {
+        Produksi produksi;
+        produksi = jdbcTemplate.queryForObject("SELECT * FROM produksi WHERE idBOP=?",
+                new Object[]{idBOP},
+                (rs, rowNum)->
+                        new Produksi(
+                                rs.getString("idBOP"),
+                                rs.getDate("tglTransaksi"),
+                                rs.getFloat("totalKm"),
+                                rs.getString("idEkspedisi"),
+                                rs.getString("idPackaging"),
+                                rs.getBoolean("statusProduksi")
+                        )
+        );
+
+        produksi.setBahanList(jdbcTemplate.query("SELECT b.*, a.qtyPemakaian FROM produksiDetail a JOIN bahan b on a.idBahan=b.idBahan WHERE a.idBOP=?",
+                new Object[]{idBOP},
+                (rs, rowNum)->
+                        new Bahan(
+                                rs.getString("idBahan"),
+                                rs.getString("namaBahan"),
+                                rs.getInt("qty"),
+                                rs.getInt("hargaBahan"),
+                                rs.getBoolean("statusBahan"),
+                                rs.getInt("qtyPemakaian")
+                        )
+        ));
+
+        return produksi;
+    }
+
+    @Override
+    public void status(Produksi produksi) {
+        jdbcTemplate.update("UPDATE produksi SET statusProduksi=? WHERE idBOP=?",
+                produksi.isStatusProduksi(), produksi.getIdBOP());
     }
 }
