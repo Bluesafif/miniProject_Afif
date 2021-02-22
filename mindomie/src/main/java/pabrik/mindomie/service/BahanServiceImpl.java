@@ -31,7 +31,9 @@ public class BahanServiceImpl implements BahanService{
 
     @Override
     public List<Bahan> findAll() {
+//    public List<Bahan> findAll(int page, int limit) {
         List<Bahan> bahanList = bahanRepository.findAll();
+//        List<Bahan> bahanList = bahanRepository.findAll(int page, int limit);
         return bahanList;
     }
 

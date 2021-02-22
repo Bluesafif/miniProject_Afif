@@ -31,6 +31,7 @@ public class ProduksiController {
     @RequestMapping(value = "/produksi", method = RequestMethod.GET)
     public ResponseEntity<List<Produksi>> listAllProduksi(){
         List<Produksi> produksiList = produksiService.findAll();
+//        List<Produksi> produksiList = produksiService.findAll(int page, int limit);
         if (produksiList.isEmpty()) {
             return new ResponseEntity<>(produksiList, HttpStatus.NOT_FOUND);
         }
@@ -139,6 +140,7 @@ public class ProduksiController {
     @RequestMapping(value = "/laporan", method = RequestMethod.GET)
     public ResponseEntity<List<Produksi>> listAllLaporan(){
         List<Produksi> laporanList = produksiService.findAllLaporan();
+//        List<Produksi> laporanList = produksiService.findAllLaporan(int page, int limit);
         if (laporanList.isEmpty()) {
             return new ResponseEntity<>(laporanList, HttpStatus.NOT_FOUND);
         }else{

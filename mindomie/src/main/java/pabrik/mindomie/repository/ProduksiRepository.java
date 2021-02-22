@@ -11,6 +11,8 @@ public interface ProduksiRepository {
 
     List<Produksi> findAll();
 
+//    List<Produksi> findAll(int page, int limit);
+
     Produksi findById(String idBOP);
 
     void status(Produksi produksi);
@@ -18,6 +20,8 @@ public interface ProduksiRepository {
     List<Produksi> findAllAvailable();
 
     List<Produksi> findAllLaporan();
+
+//    List<Produksi> findAllLaporan(int page, int limit);
 
     Produksi findAllLaporanById(String idBOP);
 

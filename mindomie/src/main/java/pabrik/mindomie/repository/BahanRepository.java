@@ -11,6 +11,8 @@ public interface BahanRepository {
 
     List<Bahan> findAll();
 
+//    List<Bahan> findAll(int page, int limit);
+
     Bahan findById(String idBahan);
 
     boolean isBahanExist (String namaBahan);

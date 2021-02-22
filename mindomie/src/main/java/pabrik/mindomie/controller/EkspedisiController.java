@@ -25,6 +25,7 @@ public class EkspedisiController {
     @RequestMapping(value = "/ekspedisi", method = RequestMethod.GET)
     public ResponseEntity<List<Ekspedisi>> listAllEkspedisi(){
         List<Ekspedisi> ekspedisiList = ekspedisiService.findAll();
+//        List<Ekspedisi> ekspedisiList = ekspedisiService.findAll(int page, int limit);
         if (ekspedisiList.isEmpty()) {
             return new ResponseEntity<>(ekspedisiList, HttpStatus.NOT_FOUND);
         }

@@ -26,6 +26,7 @@ public class PackagingController {
     @RequestMapping(value = "/packaging", method = RequestMethod.GET)
     public ResponseEntity<List<Packaging>> listAllPackaging(){
         List<Packaging> packagingList = packagingService.findAll();
+//        List<Packaging> packagingList = packagingService.findAll(int page, int limit);
         if (packagingList.isEmpty()) {
             return new ResponseEntity<>(packagingList, HttpStatus.NOT_FOUND);
         }

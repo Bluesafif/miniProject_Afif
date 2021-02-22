@@ -11,6 +11,8 @@ public interface EkspedisiService {
 
     List<Ekspedisi> findAll();
 
+//    List<Ekspedisi> findAll(int page, int limit);
+
     Ekspedisi findById(String idEkspedisi);
 
     boolean isEkspedisiExist (String namaEkspedisi);

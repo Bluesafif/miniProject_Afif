@@ -29,7 +29,20 @@ public class EkspedisiRepositoryImpl implements EkspedisiRepository{
 
     @Override
     public List<Ekspedisi> findAll() {
-        return jdbcTemplate.query("SELECT * FROM ekspedisi",
+//    public List<Ekspedisi> findAll(int page, int limit) {
+//        int numPages;
+//        numPages =jdbcTemplate.query("SELECT COUNT(*) AS count FROM bahan",
+//                (rs, rowNum)->
+//                        rs.getInt("count")).get(0);
+//
+//        //validatePage
+//        if (page < 1) page = 1;
+//        if (page > numPages) page = numPages;
+//
+//        int start = (page - 1) * limit;
+        List<Ekspedisi> ekspedisiList;
+        ekspedisiList =  jdbcTemplate.query("SELECT * FROM ekspedisi",
+//        ekspedisiList = jdbcTemplate.query("SELECT * FROM ekspedisi"+start+","+limit+"",
                 (rs, rowNum)->
                         new Ekspedisi(
                                 rs.getString("idEkspedisi"),
@@ -38,6 +51,7 @@ public class EkspedisiRepositoryImpl implements EkspedisiRepository{
                                 rs.getBoolean("statusEkspedisi")
                         )
         );
+        return ekspedisiList;
     }
 
     @Override

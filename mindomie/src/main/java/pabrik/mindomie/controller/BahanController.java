@@ -27,6 +27,7 @@ public class BahanController {
     @RequestMapping(value = "/bahanbaku", method = RequestMethod.GET)
     public ResponseEntity<List<Bahan>> listAllBahan(){
         List<Bahan> bahanList = bahanService.findAll();
+//        List<Bahan> bahanList = bahanService.findAll(int page, int limit);
         if (bahanList.isEmpty()) {
             return new ResponseEntity<>(bahanList, HttpStatus.NOT_FOUND);
         }

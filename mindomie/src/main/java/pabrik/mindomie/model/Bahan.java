@@ -12,15 +12,6 @@ public class Bahan {
     public Bahan() {
     }
 
-    public Bahan(String idBahan, String namaBahan, float qty, int hargaBahan, boolean statusBahan, float qtyPemakaian) {
-        this.idBahan = idBahan;
-        this.namaBahan = namaBahan;
-        this.qty = qty;
-        this.hargaBahan = hargaBahan;
-        this.statusBahan = statusBahan;
-        this.qtyPemakaian = qtyPemakaian;
-    }
-
     public Bahan(String idBahan, String namaBahan, float qty, int hargaBahan, boolean statusBahan) {
         this.idBahan = idBahan;
         this.namaBahan = namaBahan;
@@ -29,6 +20,14 @@ public class Bahan {
         this.statusBahan = statusBahan;
     }
 
+    public Bahan(String idBahan, String namaBahan, float qty, int hargaBahan, boolean statusBahan, float qtyPemakaian) {
+        this.idBahan = idBahan;
+        this.namaBahan = namaBahan;
+        this.qty = qty;
+        this.hargaBahan = hargaBahan;
+        this.statusBahan = statusBahan;
+        this.qtyPemakaian = qtyPemakaian;
+    }
     public Bahan(String idBahan, String namaBahan, float qty, int hargaBahan, boolean statusBahan, float qtyPemakaian, float totalHargaBahan) {
         this.idBahan = idBahan;
         this.namaBahan = namaBahan;

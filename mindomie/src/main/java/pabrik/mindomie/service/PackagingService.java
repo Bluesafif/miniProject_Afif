@@ -11,6 +11,8 @@ public interface PackagingService {
 
     List<Packaging> findAll();
 
+//    List<Packaging> findAll(int page, int limit);
+
     Packaging findById(String idpackaging);
 
     boolean isPackagingExist (String namapackaging);

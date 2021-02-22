@@ -29,7 +29,21 @@ public class BahanRepositoryImpl implements BahanRepository {
 
     @Override
     public List<Bahan> findAll() {
-        return jdbcTemplate.query("SELECT * FROM bahan",
+//    public List<Bahan> findAll(int page, int limit) {
+//        int numPages;
+//        numPages =jdbcTemplate.query("SELECT COUNT(*) AS count FROM bahan",
+//                (rs, rowNum)->
+//                        rs.getInt("count")).get(0);
+//
+//        //validatePage
+//        if (page < 1) page = 1;
+//        if (page > numPages) page = numPages;
+//
+//        int start = (page - 1) * limit;
+
+        List<Bahan> bahanList;
+        bahanList = jdbcTemplate.query("SELECT * FROM bahan",
+//        bahanList = jdbcTemplate.query("SELECT * FROM bahan"+start+","+limit+"",
                 (rs, rowNum)->
                         new Bahan(
                                 rs.getString("idBahan"),
@@ -39,6 +53,7 @@ public class BahanRepositoryImpl implements BahanRepository {
                                 rs.getBoolean("statusBahan")
                         )
         );
+        return bahanList;
     }
 
     @Override
