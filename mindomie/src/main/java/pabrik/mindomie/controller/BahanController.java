@@ -12,6 +12,7 @@ import pabrik.mindomie.service.BahanService;
 import pabrik.mindomie.util.CustomErrorType;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/pabrik/master")
@@ -25,9 +26,15 @@ public class BahanController {
     //------------------Get All Data------------------//
 
     @RequestMapping(value = "/bahanbaku", method = RequestMethod.GET)
-    public ResponseEntity<List<Bahan>> listAllBahan(){
-        List<Bahan> bahanList = bahanService.findAll();
-//        List<Bahan> bahanList = bahanService.findAll(int page, int limit);
+    public ResponseEntity<List<Bahan>> listAllBahan(@RequestParam Map<Object, Object> pagination){
+        String paginationSelect = "";
+        if (pagination.containsKey("limit")){
+            paginationSelect += " LIMIT " + pagination.get("limit");
+        }
+        if(pagination.containsKey("offset")){
+            paginationSelect += " OFFSET " + pagination.get("offset");
+        }
+        List<Bahan> bahanList = bahanService.findAll(paginationSelect);
         if (bahanList.isEmpty()) {
             return new ResponseEntity<>(bahanList, HttpStatus.NOT_FOUND);
         }

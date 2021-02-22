@@ -11,6 +11,7 @@ import pabrik.mindomie.service.EkspedisiService;
 import pabrik.mindomie.util.CustomErrorType;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/pabrik/master")
@@ -23,9 +24,15 @@ public class EkspedisiController {
     //------------------Get All Data------------------//
 
     @RequestMapping(value = "/ekspedisi", method = RequestMethod.GET)
-    public ResponseEntity<List<Ekspedisi>> listAllEkspedisi(){
-        List<Ekspedisi> ekspedisiList = ekspedisiService.findAll();
-//        List<Ekspedisi> ekspedisiList = ekspedisiService.findAll(int page, int limit);
+    public ResponseEntity<List<Ekspedisi>> listAllEkspedisi(@RequestParam Map<Object, Object> pagination){
+        String paginationSelect = "";
+        if (pagination.containsKey("limit")){
+            paginationSelect += " LIMIT " + pagination.get("limit");
+        }
+        if(pagination.containsKey("offset")){
+            paginationSelect += " OFFSET " + pagination.get("offset");
+        }
+        List<Ekspedisi> ekspedisiList = ekspedisiService.findAll(paginationSelect);
         if (ekspedisiList.isEmpty()) {
             return new ResponseEntity<>(ekspedisiList, HttpStatus.NOT_FOUND);
         }

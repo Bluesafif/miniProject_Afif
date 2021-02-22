@@ -28,22 +28,9 @@ public class BahanRepositoryImpl implements BahanRepository {
     }
 
     @Override
-    public List<Bahan> findAll() {
-//    public List<Bahan> findAll(int page, int limit) {
-//        int numPages;
-//        numPages =jdbcTemplate.query("SELECT COUNT(*) AS count FROM bahan",
-//                (rs, rowNum)->
-//                        rs.getInt("count")).get(0);
-//
-//        //validatePage
-//        if (page < 1) page = 1;
-//        if (page > numPages) page = numPages;
-//
-//        int start = (page - 1) * limit;
-
+    public List<Bahan> findAll(String paginationSelect) {
         List<Bahan> bahanList;
-        bahanList = jdbcTemplate.query("SELECT * FROM bahan",
-//        bahanList = jdbcTemplate.query("SELECT * FROM bahan"+start+","+limit+"",
+        bahanList = jdbcTemplate.query("SELECT * FROM bahan "+paginationSelect,
                 (rs, rowNum)->
                         new Bahan(
                                 rs.getString("idBahan"),

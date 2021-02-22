@@ -29,10 +29,8 @@ public class PackagingServiceImpl implements PackagingService{
     }
 
     @Override
-    public List<Packaging> findAll() {
-//    public List<Packaging> findAll(int page, int limit) {
-        List<Packaging> packagingList = packagingRepository.findAll();
-//        List<Packaging> packagingList = packagingRepository.findAll(int page, int limit);
+    public List<Packaging> findAll(String paginationSelect) {
+        List<Packaging> packagingList = packagingRepository.findAll(paginationSelect);
         return packagingList;
     }
 

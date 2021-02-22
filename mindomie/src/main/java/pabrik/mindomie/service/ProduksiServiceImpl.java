@@ -29,10 +29,8 @@ public class ProduksiServiceImpl implements ProduksiService {
     }
 
     @Override
-    public List<Produksi> findAll() {
-//    public List<Produksi> findAll(int page, int limit) {
-        List<Produksi> produksiList = produksiRepository.findAll();
-//        List<Produksi> produksiList = produksiRepository.findAll(int page, int limit);
+    public List<Produksi> findAll(String paginationSelect) {
+        List<Produksi> produksiList = produksiRepository.findAll(paginationSelect);
         return produksiList;
     }
 
@@ -62,10 +60,8 @@ public class ProduksiServiceImpl implements ProduksiService {
     }
 
     @Override
-    public List<Produksi> findAllLaporan() {
-//    public List<Produksi> findAllLaporan(int page, int limit) {
-        List<Produksi> laporanList = produksiRepository.findAllLaporan();
-//        List<Produksi> laporanList = produksiRepository.findAllLaporan(int page, int limit);
+    public List<Produksi> findAllLaporan(String paginationSelect) {
+        List<Produksi> laporanList = produksiRepository.findAllLaporan(paginationSelect);
         return laporanList;
     }
 

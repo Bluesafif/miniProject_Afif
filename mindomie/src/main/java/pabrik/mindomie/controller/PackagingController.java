@@ -11,6 +11,7 @@ import pabrik.mindomie.service.PackagingService;
 import pabrik.mindomie.util.CustomErrorType;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/pabrik/master")
@@ -24,9 +25,15 @@ public class PackagingController {
     //------------------Get All Data------------------//
 
     @RequestMapping(value = "/packaging", method = RequestMethod.GET)
-    public ResponseEntity<List<Packaging>> listAllPackaging(){
-        List<Packaging> packagingList = packagingService.findAll();
-//        List<Packaging> packagingList = packagingService.findAll(int page, int limit);
+    public ResponseEntity<List<Packaging>> listAllPackaging(@RequestParam Map<Object, Object> pagination){
+        String paginationSelect = "";
+        if (pagination.containsKey("limit")){
+            paginationSelect += " LIMIT " + pagination.get("limit");
+        }
+        if(pagination.containsKey("offset")){
+            paginationSelect += " OFFSET " + pagination.get("offset");
+        }
+        List<Packaging> packagingList = packagingService.findAll(paginationSelect);
         if (packagingList.isEmpty()) {
             return new ResponseEntity<>(packagingList, HttpStatus.NOT_FOUND);
         }

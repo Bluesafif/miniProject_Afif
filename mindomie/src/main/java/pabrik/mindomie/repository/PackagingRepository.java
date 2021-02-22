@@ -9,9 +9,7 @@ public interface PackagingRepository {
 
     void updatePackaging(Packaging packaging);
 
-    List<Packaging> findAll();
-
-//    List<Packaging> findAll(int page, int limit);
+    List<Packaging> findAll(String paginationSelect);
 
     Packaging findById(String idPackaging);
 

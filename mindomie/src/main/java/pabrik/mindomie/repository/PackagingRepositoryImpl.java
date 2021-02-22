@@ -28,21 +28,9 @@ public class PackagingRepositoryImpl implements PackagingRepository{
     }
 
     @Override
-    public List<Packaging> findAll() {
-//    public List<Packaging> findAll(int page, int limit) {
-//        int numPages;
-//        numPages =jdbcTemplate.query("SELECT COUNT(*) AS count FROM packaging",
-//                (rs, rowNum)->
-//                        rs.getInt("count")).get(0);
-//
-//        //validatePage
-//        if (page < 1) page = 1;
-//        if (page > numPages) page = numPages;
-//
-//        int start = (page - 1) * limit;
+    public List<Packaging> findAll(String paginationSelect) {
         List<Packaging> packagingList;
-        packagingList = jdbcTemplate.query("SELECT * FROM packaging",
-//        packagingList = jdbcTemplate.query("SELECT * FROM packaging"+start+","+limit+"",
+        packagingList = jdbcTemplate.query("SELECT * FROM packaging "+paginationSelect,
                 (rs, rowNum)->
                         new Packaging(
                                 rs.getString("idPackaging"),

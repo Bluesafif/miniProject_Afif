@@ -29,10 +29,8 @@ public class EkspedisiServiceImpl implements EkspedisiService{
     }
 
     @Override
-    public List<Ekspedisi> findAll() {
-//    public List<Ekspedisi> findAll(int page, int limit) {
-        List<Ekspedisi> ekspedisiList = ekspedisiRepository.findAll();
-//        List<Ekspedisi> ekspedisiList = ekspedisiRepository.findAll(int page, int limit);
+    public List<Ekspedisi> findAll(String paginationSelect) {
+        List<Ekspedisi> ekspedisiList = ekspedisiRepository.findAll(paginationSelect);
         return ekspedisiList;
     }
 

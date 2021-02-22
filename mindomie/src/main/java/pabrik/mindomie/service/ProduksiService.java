@@ -9,9 +9,7 @@ public interface ProduksiService {
 
     void updateProduksi(Produksi produksi);
 
-    List<Produksi> findAll();
-
-//    List<Produksi> findAll(int page, int limit);
+    List<Produksi> findAll(String paginationSelect);
 
     Produksi findById(String idProduksi);
 
@@ -19,9 +17,7 @@ public interface ProduksiService {
 
     List<Produksi> findAllAvailable();
 
-    List<Produksi> findAllLaporan();
-
-//    List<Produksi> findAllLaporan(int page, int limit);
+    List<Produksi> findAllLaporan(String paginationSelect);
 
     Produksi findAllLaporanById(String idBOP);
 

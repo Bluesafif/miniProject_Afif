@@ -29,9 +29,15 @@ public class ProduksiController {
     //------------------Get All Data------------------//
 
     @RequestMapping(value = "/produksi", method = RequestMethod.GET)
-    public ResponseEntity<List<Produksi>> listAllProduksi(){
-        List<Produksi> produksiList = produksiService.findAll();
-//        List<Produksi> produksiList = produksiService.findAll(int page, int limit);
+    public ResponseEntity<List<Produksi>> listAllProduksi(@RequestParam Map<Object, Object> pagination){
+        String paginationSelect = "";
+        if (pagination.containsKey("limit")){
+            paginationSelect += " LIMIT " + pagination.get("limit");
+        }
+        if(pagination.containsKey("offset")){
+            paginationSelect += " OFFSET " + pagination.get("offset");
+        }
+        List<Produksi> produksiList = produksiService.findAll(paginationSelect);
         if (produksiList.isEmpty()) {
             return new ResponseEntity<>(produksiList, HttpStatus.NOT_FOUND);
         }
@@ -138,9 +144,15 @@ public class ProduksiController {
     //------------------Get All Report Data------------------//
 
     @RequestMapping(value = "/laporan", method = RequestMethod.GET)
-    public ResponseEntity<List<Produksi>> listAllLaporan(){
-        List<Produksi> laporanList = produksiService.findAllLaporan();
-//        List<Produksi> laporanList = produksiService.findAllLaporan(int page, int limit);
+    public ResponseEntity<List<Produksi>> listAllLaporan(@RequestParam Map<Object, Object> pagination){
+        String paginationSelect = "";
+        if (pagination.containsKey("limit")){
+            paginationSelect += " LIMIT " + pagination.get("limit");
+        }
+        if(pagination.containsKey("offset")){
+            paginationSelect += " OFFSET " + pagination.get("offset");
+        }
+        List<Produksi> laporanList = produksiService.findAllLaporan(paginationSelect);
         if (laporanList.isEmpty()) {
             return new ResponseEntity<>(laporanList, HttpStatus.NOT_FOUND);
         }else{

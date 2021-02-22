@@ -9,9 +9,7 @@ public interface BahanService {
 
     void updateBahan(Bahan bahan);
 
-    List<Bahan> findAll();
-
-//    List<Bahan> findAll(int page, int limit);
+    List<Bahan> findAll(String paginationSelect);
 
     Bahan findById(String idBahan);
 

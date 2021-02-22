@@ -43,21 +43,9 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
     }
 
     @Override
-    public List<Produksi> findAll() {
-//    public List<Produksi> findAll(int page, int limit) {
-//        int numPages;
-//        numPages =jdbcTemplate.query("SELECT COUNT(*) AS count FROM produksi",
-//                (rs, rowNum)->
-//                        rs.getInt("count")).get(0);
-//
-//        //validatePage
-//        if (page < 1) page = 1;
-//        if (page > numPages) page = numPages;
-//
-//        int start = (page - 1) * limit;
+    public List<Produksi> findAll(String paginationSelect) {
         List<Produksi> produksiList;
-        produksiList = jdbcTemplate.query("SELECT * FROM produksi",
-//        produksiList = jdbcTemplate.query("SELECT * FROM produksi"+start+","+limit+"",
+        produksiList = jdbcTemplate.query("SELECT * FROM produksi "+paginationSelect,
                 (rs, rowNum)->
                         new Produksi(
                                 rs.getString("idBOP"),
@@ -158,30 +146,14 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
     }
 
     @Override
-    public List<Produksi> findAllLaporan() {
-//    public List<Produksi> findAllLaporan(int page, int limit) {
-//        int numPages;
-//        numPages =jdbcTemplate.query("SELECT COUNT(*) AS count FROM produksi",
-//                (rs, rowNum)->
-//                        rs.getInt("count")).get(0);
-//
-//        //validatePage
-//        if (page < 1) page = 1;
-//        if (page > numPages) page = numPages;
-//
-//        int start = (page - 1) * limit;
+    public List<Produksi> findAllLaporan(String paginationSelect) {
         List<Produksi> laporanList;
         laporanList = jdbcTemplate.query("SELECT a.*, b.hargaEkspedisi*a.totalKm AS \"hargaTotalEkspedisi\", c.hargaPackaging, " +
                         "(SUM((b.hargaEkspedisi*a.totalKm)+c.hargaPackaging+((d.qtyPemakaian*0.001)*e.hargaBahan))) AS \"totalBiayaProduksi\" " +
                         "FROM produksi a JOIN ekspedisi b JOIN packaging c JOIN produksiDetail d JOIN bahan e " +
                         "ON a.idEkspedisi=b.idEkspedisi AND a.idPackaging=c.idPackaging AND a.idBOP=d.idBOP AND d.idBahan=e.idBahan " +
-                        "GROUP BY a.idBOP",
+                        "GROUP BY a.idBOP "+paginationSelect,
 
-//        laporanList = jdbcTemplate.query("SELECT a.*, b.hargaEkspedisi*a.totalKm AS \"hargaTotalEkspedisi\", c.hargaPackaging, " +
-//                        "(SUM((b.hargaEkspedisi*a.totalKm)+c.hargaPackaging+((d.qtyPemakaian*0.001)*e.hargaBahan))) AS \"totalBiayaProduksi\" " +
-//                        "FROM produksi a JOIN ekspedisi b JOIN packaging c JOIN produksiDetail d JOIN bahan e " +
-//                        "ON a.idEkspedisi=b.idEkspedisi AND a.idPackaging=c.idPackaging AND a.idBOP=d.idBOP AND d.idBahan=e.idBahan " +
-//                        "GROUP BY a.idBOP"+start+","+limit+"",
                 (rs, rowNum)->
                         new Produksi(
                                 rs.getString("idBOP"),

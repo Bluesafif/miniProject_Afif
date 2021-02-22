@@ -28,21 +28,9 @@ public class EkspedisiRepositoryImpl implements EkspedisiRepository{
     }
 
     @Override
-    public List<Ekspedisi> findAll() {
-//    public List<Ekspedisi> findAll(int page, int limit) {
-//        int numPages;
-//        numPages =jdbcTemplate.query("SELECT COUNT(*) AS count FROM bahan",
-//                (rs, rowNum)->
-//                        rs.getInt("count")).get(0);
-//
-//        //validatePage
-//        if (page < 1) page = 1;
-//        if (page > numPages) page = numPages;
-//
-//        int start = (page - 1) * limit;
+    public List<Ekspedisi> findAll(String paginationSelect) {
         List<Ekspedisi> ekspedisiList;
-        ekspedisiList =  jdbcTemplate.query("SELECT * FROM ekspedisi",
-//        ekspedisiList = jdbcTemplate.query("SELECT * FROM ekspedisi"+start+","+limit+"",
+        ekspedisiList =  jdbcTemplate.query("SELECT * FROM ekspedisi "+paginationSelect,
                 (rs, rowNum)->
                         new Ekspedisi(
                                 rs.getString("idEkspedisi"),

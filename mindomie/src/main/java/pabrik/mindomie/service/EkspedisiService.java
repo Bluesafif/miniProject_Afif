@@ -9,9 +9,7 @@ public interface EkspedisiService {
 
     void updateEkspedisi(Ekspedisi ekspedisi);
 
-    List<Ekspedisi> findAll();
-
-//    List<Ekspedisi> findAll(int page, int limit);
+    List<Ekspedisi> findAll(String paginationSelect);
 
     Ekspedisi findById(String idEkspedisi);
 
