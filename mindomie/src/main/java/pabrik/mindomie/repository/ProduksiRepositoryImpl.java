@@ -33,7 +33,12 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
 
     @Override
     public void updateProduksi(Produksi produksi) {
+        jdbcTemplate.update("DELETE FROM produksiDetail WHERE idBOP=?", produksi.getIdBOP());
 
+        for (Bahan bahan : produksi.getBahanList()){
+            jdbcTemplate.update("INSERT INTO produksiDetail (idBOP, idBahan, qtyPemakaian) VALUES (?,?,?)",
+                    produksi.getIdBOP(), bahan.getIdBahan(), bahan.getQtyPemakaian());
+        }
     }
 
     @Override
@@ -184,8 +189,8 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
 
     @Override
     public Produksi findAllLaporanById(String idBOP) {
-        Produksi produksi;
-        produksi = jdbcTemplate.queryForObject("SELECT a.*, b.hargaEkspedisi*a.totalKm AS \"hargaTotalEkspedisi\", c.hargaPackaging, " +
+        Produksi laporan;
+        laporan = jdbcTemplate.queryForObject("SELECT a.*, b.hargaEkspedisi*a.totalKm AS \"hargaTotalEkspedisi\", c.hargaPackaging, " +
                         "(SUM((b.hargaEkspedisi*a.totalKm)+c.hargaPackaging+((d.qtyPemakaian*0.001)*e.hargaBahan))) AS \"totalBiayaProduksi\" " +
                         "FROM produksi a JOIN ekspedisi b JOIN packaging c JOIN produksiDetail d JOIN bahan e " +
                         "ON a.idEkspedisi=b.idEkspedisi AND a.idPackaging=c.idPackaging AND a.idBOP=d.idBOP AND d.idBahan=e.idBahan " +
@@ -205,7 +210,7 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
                         )
         );
 
-        produksi.setBahanList(jdbcTemplate.query("SELECT b.idBahan, b.namaBahan, b.qty*0.001 AS \"qty\", b.hargaBahan," +
+        laporan.setBahanList(jdbcTemplate.query("SELECT b.idBahan, b.namaBahan, b.qty*0.001 AS \"qty\", b.hargaBahan," +
                         "b.statusBahan, a.qtyPemakaian*0.001 AS \"qtyPemakaian\", (a.qtyPemakaian*0.001)*b.hargaBahan AS \"totalHargaBahan\"" +
                         "FROM produksiDetail a JOIN bahan b ON a.idBahan=b.idBahan WHERE a.idBOP=?",
                 new Object[]{idBOP},
@@ -220,9 +225,48 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
                                 rs.getFloat("totalHargaBahan")
                         )
         ));
-        return produksi;
+        return laporan;
     }
 
-//    @Override
+    @Override
+    public Produksi findAllLaporanByDate(String tanggal) {
+        Produksi laporan;
+        laporan = jdbcTemplate.queryForObject("SELECT a.*, b.hargaEkspedisi*a.totalKm AS \"hargaTotalEkspedisi\", c.hargaPackaging, " +
+                        "(SUM((b.hargaEkspedisi*a.totalKm)+c.hargaPackaging+((d.qtyPemakaian*0.001)*e.hargaBahan))) AS \"totalBiayaProduksi\" " +
+                        "FROM produksi a JOIN ekspedisi b JOIN packaging c JOIN produksiDetail d JOIN bahan e " +
+                        "ON a.idEkspedisi=b.idEkspedisi AND a.idPackaging=c.idPackaging AND a.idBOP=d.idBOP AND d.idBahan=e.idBahan " +
+                        "WHERE ",
+                new Object[]{tanggal},
+                (rs, rowNum)->
+                        new Produksi(
+                                rs.getString("idBOP"),
+                                rs.getDate("tglTransaksi"),
+                                rs.getFloat("totalKm"),
+                                rs.getString("idEkspedisi"),
+                                rs.getString("idPackaging"),
+                                rs.getBoolean("statusProduksi"),
+                                rs.getFloat("hargaTotalEkspedisi"),
+                                rs.getFloat("hargaPackaging"),
+                                rs.getFloat("totalBiayaProduksi")
+                        )
+        );
+
+        laporan.setBahanList(jdbcTemplate.query("SELECT b.idBahan, b.namaBahan, b.qty*0.001 AS \"qty\", b.hargaBahan," +
+                        "b.statusBahan, a.qtyPemakaian*0.001 AS \"qtyPemakaian\", (a.qtyPemakaian*0.001)*b.hargaBahan AS \"totalHargaBahan\"" +
+                        "FROM produksiDetail a JOIN bahan b ON a.idBahan=b.idBahan WHERE a.idBOP=?",
+                new Object[]{tanggal},
+                (rs, rowNum)->
+                        new Bahan(
+                                rs.getString("idBahan"),
+                                rs.getString("namaBahan"),
+                                rs.getFloat("qty"),
+                                rs.getInt("hargaBahan"),
+                                rs.getBoolean("statusBahan"),
+                                rs.getFloat("qtyPemakaian"),
+                                rs.getFloat("totalHargaBahan")
+                        )
+        ));
+        return laporan;
+    }
 
 }

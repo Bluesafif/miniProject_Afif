@@ -76,4 +76,16 @@ public class ProduksiServiceImpl implements ProduksiService {
         }
         return laporan;
     }
+
+    @Override
+    public Produksi findAllLaporanByDate(String tanggal) {
+        Produksi laporan;
+        try{
+            laporan = produksiRepository.findAllLaporanByDate(tanggal);
+        }catch (EmptyResultDataAccessException e){
+            System.out.println(e);
+            laporan = null;
+        }
+        return laporan;
+    }
 }

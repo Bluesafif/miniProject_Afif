@@ -20,4 +20,6 @@ public interface ProduksiService {
     List<Produksi> findAllLaporan();
 
     Produksi findAllLaporanById(String idBOP);
+
+    Produksi findAllLaporanByDate(String tanggal);
 }

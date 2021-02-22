@@ -13,6 +13,7 @@ import pabrik.mindomie.service.ProduksiService;
 import pabrik.mindomie.util.CustomErrorType;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/pabrik")
@@ -74,6 +75,26 @@ public class ProduksiController {
 
     //------------------Update a Data------------------//
 
+    @RequestMapping(value = "/produksi/{idBOP}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateProduksi(@PathVariable("idBOP") String idBOP, @RequestBody Produksi produksi){
+        logger.info("Mengubah data Produksi dengan idBOP {}", idBOP);
+        Produksi produksi1 = produksiService.findById(idBOP);
+
+        if (produksi1 == null){
+            logger.error("Tidak dapat mengubah Produksi. Produksi dengan idBOP {} tidak ada.", idBOP);
+            return new ResponseEntity<>(new CustomErrorType("Tidak dapat mengubah Produksi. Produksi dengan idBOP " + idBOP + " tidak ada."),
+                    HttpStatus.NOT_FOUND);
+        }else {
+            try {
+                produksiService.updateProduksi(produksi);
+                return new ResponseEntity<>("Data Berhasil Di Update",HttpStatus.OK);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new ResponseEntity<>("Data Gagal Di Update", HttpStatus.BAD_REQUEST);
+            }
+        }
+    }
+
     //------------------Get One Data Only------------------//
 
     @RequestMapping(value = "/produksi/{idBOP}", method = RequestMethod.GET)
@@ -134,6 +155,21 @@ public class ProduksiController {
         if (laporan == null) {
             logger.error("Laporan dengan idBOP {} tidak ada.", idBOP);
             return new ResponseEntity<>(new CustomErrorType("Laporan dengan idBOP " + idBOP  + " tidak ada."), HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>(laporan, HttpStatus.OK);
+        }
+    }
+
+    //------------------Get All Report Data By Date------------------//
+
+    @RequestMapping(value = "/laporan", method = RequestMethod.GET)
+    public ResponseEntity<?> listLaporanByDate(@RequestParam Map<Object, Object> tanggal){
+        logger.info("Mencari laporan berdasarkan tanggal.");
+        String tanggalSelect = "(tglTransaksi BETWEEN '" + tanggal.get("tanggalMulai") + "' AND '" + tanggal.get("tanggalAkhir") + "')";
+        Produksi laporan = produksiService.findAllLaporanByDate(tanggalSelect);
+        if (laporan == null) {
+            logger.error("Laporan tidak ada.");
+            return new ResponseEntity<>(new CustomErrorType("Laporan dengan tidak ada."), HttpStatus.NOT_FOUND);
         }else{
             return new ResponseEntity<>(laporan, HttpStatus.OK);
         }
