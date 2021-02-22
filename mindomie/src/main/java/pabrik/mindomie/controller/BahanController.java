@@ -75,6 +75,10 @@ public class BahanController {
             return new ResponseEntity<>(new CustomErrorType("Tidak dapat mengubah data Bahan Baku. Bahan dengan id "
                     + idBahan + " tidak tersedia."),
                     HttpStatus.NOT_FOUND);
+        } else if (bahanService.isBahanExist(bahan.getNamaBahan())) {
+            logger.error("Tidak dapat menyimpan bahan! Bahan dengan nama {} sudah tersedia!", bahan.getNamaBahan());
+            return new ResponseEntity<>(new CustomErrorType("Tidak dapat menyimpan bahan! Bahan dengan nama " +
+                    bahan.getNamaBahan() + " sudah tersedia!"), HttpStatus.CONFLICT);
         }
 
         bahan1.setNamaBahan(bahan.getNamaBahan());

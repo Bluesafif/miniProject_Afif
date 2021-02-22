@@ -58,7 +58,7 @@ public class BahanRepositoryImpl implements BahanRepository {
 
     @Override
     public Bahan findById(String idBahan) {
-        return jdbcTemplate.queryForObject("SELECT * FROM bahan WHERE idBahan="+idBahan+"",
+        return jdbcTemplate.queryForObject("SELECT * FROM bahan WHERE idBahan='"+idBahan+"'",
                 (rs, rowNum)->
                         new Bahan(
                                 rs.getString("idBahan"),

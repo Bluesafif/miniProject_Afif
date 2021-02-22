@@ -73,6 +73,10 @@ public class EkspedisiController {
             return new ResponseEntity<>(new CustomErrorType("Tidak dapat mengubah data ekspedisi. Ekspedisi dengan id "
                     + idEkspedisi + " tidak tersedia."),
                     HttpStatus.NOT_FOUND);
+        } else if (ekspedisiService.isEkspedisiExist(ekspedisi.getNamaEkspedisi())) {
+            logger.error("Tidak dapat menyimpan ekspedisi! Ekspedisi dengan nama {} sudah tersedia!", ekspedisi.getNamaEkspedisi());
+            return new ResponseEntity<>(new CustomErrorType("Tidak dapat menyimpan ekspedisi! Ekspedisi dengan nama " +
+                    ekspedisi.getNamaEkspedisi() + " sudah tersedia!"), HttpStatus.CONFLICT);
         }
 
         ekspedisi1.setNamaEkspedisi(ekspedisi.getNamaEkspedisi());

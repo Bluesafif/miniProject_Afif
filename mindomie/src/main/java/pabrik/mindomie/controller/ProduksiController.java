@@ -66,10 +66,10 @@ public class ProduksiController {
             } else if (!bahan.isStatusBahan()) {
                 logger.error("Terdapat Bahan yang tidak tersedia!");
                 return new ResponseEntity<>(new CustomErrorType("Tidak dapat membuat produksi. Bahan dengan id " + produksi.getBahanList().get(i).getIdBahan() + " Tidak Tersedia."), HttpStatus.CONFLICT);
-            }else{
-                produksiService.saveProduksi(produksi);
             }
         }
+
+        produksiService.saveProduksi(produksi);
 
         return new ResponseEntity<>("Data Berhasil Ditambahkan!", HttpStatus.CREATED);
     }

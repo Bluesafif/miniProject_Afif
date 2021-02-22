@@ -74,6 +74,10 @@ public class PackagingController {
             return new ResponseEntity<>(new CustomErrorType("Tidak dapat mengubah data Kemasan. Kemasan dengan id "
                     + idPackaging + " tidak tersedia."),
                     HttpStatus.NOT_FOUND);
+        } else if (packagingService.isPackagingExist(packaging.getNamaPackaging())) {
+            logger.error("Tidak dapat menyimpan kemasan! Kemasan dengan nama {} sudah tersedia!", packaging.getNamaPackaging());
+            return new ResponseEntity<>(new CustomErrorType("Tidak dapat menyimpan kemasan! Kemasan dengan nama " +
+                    packaging.getNamaPackaging() + " sudah tersedia!"), HttpStatus.CONFLICT);
         }
 
         packaging1.setNamaPackaging(packaging.getNamaPackaging());

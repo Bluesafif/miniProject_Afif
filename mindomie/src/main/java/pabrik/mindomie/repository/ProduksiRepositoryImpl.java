@@ -17,17 +17,15 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
 
     @Override
     public void saveProduksi(Produksi produksi) {
-
+        String uuid = String.valueOf(UUID.randomUUID());
+        jdbcTemplate.update("INSERT INTO produksi (idBOP, tglTransaksi, totalKm, idEkspedisi, idPackaging, statusProduksi) VALUES (?,?,?,?,?,0)",
+                uuid, produksi.getTglTransaksi(), produksi.getTotalKm(), produksi.getIdEkspedisi(), produksi.getIdPackaging());
         for (Bahan bahan : produksi.getBahanList()){
-            String uuid = String.valueOf(UUID.randomUUID());
-            jdbcTemplate.update("INSERT INTO produksi (idBOP, tglTransaksi, totalKm, idEkspedisi, idPackaging, statusProduksi) VALUES (?,?,?,?,?,0)",
-                    uuid, produksi.getTglTransaksi(), produksi.getTotalKm(), produksi.getIdEkspedisi(), produksi.getIdPackaging());
             String uuid2 = String.valueOf(UUID.randomUUID());
             jdbcTemplate.update("INSERT INTO produksiDetail (idDetail, idBOP, idBahan, qtyPemakaian) VALUES (?,?,?,?)",
                     uuid2, uuid, bahan.getIdBahan(), bahan.getQtyPemakaian());
             jdbcTemplate.update("UPDATE bahan a JOIN produksiDetail b SET a.qty=a.qty-b.qtyPemakaian WHERE a.idBahan=? AND b.idDetail=?",
                     bahan.getIdBahan(), uuid2);
-
         }
     }
 
@@ -36,8 +34,11 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
         jdbcTemplate.update("DELETE FROM produksiDetail WHERE idBOP=?", produksi.getIdBOP());
 
         for (Bahan bahan : produksi.getBahanList()){
-            jdbcTemplate.update("INSERT INTO produksiDetail (idBOP, idBahan, qtyPemakaian) VALUES (?,?,?)",
-                    produksi.getIdBOP(), bahan.getIdBahan(), bahan.getQtyPemakaian());
+            String uuid = String.valueOf(UUID.randomUUID());
+            jdbcTemplate.update("INSERT INTO produksiDetail (idDetail, idBOP, idBahan, qtyPemakaian) VALUES (?,?,?)",
+                    uuid, produksi.getIdBOP(), bahan.getIdBahan(), bahan.getQtyPemakaian());
+            jdbcTemplate.update("UPDATE bahan a JOIN produksiDetail b SET a.qty=a.qty-b.qtyPemakaian WHERE a.idBahan=? AND b.idDetail=?",
+                    bahan.getIdBahan(), uuid);
         }
     }
 
