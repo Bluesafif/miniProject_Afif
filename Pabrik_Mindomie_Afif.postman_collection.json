@@ -1,0 +1,702 @@
+{
+	"info": {
+		"_postman_id": "197dfb3c-3960-45a5-baea-8bd95ed7977f",
+		"name": "Pabrik_Mindomie_Afif",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Bahan Baku",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pabrik/master/bahanbaku?limit=1&offset=0",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"master",
+						"bahanbaku"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "1"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Bahan Baku Available",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pabrik/master/bahanbaku/available",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"master",
+						"bahanbaku",
+						"available"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Bahan Baku By ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pabrik/master/bahanbaku/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"master",
+						"bahanbaku",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Bahan Baku",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"namaBahan\": \"Telur Ayam\",\r\n    \"hargaBahan\": 9000,\r\n    \"qty\": 2000\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/pabrik/master/bahanbaku",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"master",
+						"bahanbaku"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Bahan Baku",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"namaBahan\": \"A\",\r\n    \"qty\": 9000,\r\n    \"hargaBahan\": 2000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/pabrik/master/bahanbaku/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"master",
+						"bahanbaku",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Bahan Status",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pabrik/master/bahanbaku/status/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"master",
+						"bahanbaku",
+						"status",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Packaging",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pabrik/master/packaging?limit=1&offset=0",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"master",
+						"packaging"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "1"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Packaging Available",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pabrik/master/packaging/available",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"master",
+						"packaging",
+						"available"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Packaging By ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pabrik/master/packaging/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"master",
+						"packaging",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Packaging",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"namaPackaging\": \"Box\",\r\n    \"hargaPackaging\": 9000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/pabrik/master/packaging",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"master",
+						"packaging"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Packaging",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"namaPackaging\": \"Plastik\",\r\n    \"hargaPackaging\": 5000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/pabrik/master/packaging/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"master",
+						"packaging",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Packaging Status",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pabrik/master/packaging/status/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"master",
+						"packaging",
+						"status",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Ekspedisi",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pabrik/master/ekspedisi?limit=2&offset=0",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"master",
+						"ekspedisi"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "2"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Ekspedisi Available",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pabrik/master/ekspedisi/available",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"master",
+						"ekspedisi",
+						"available"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Ekspedisi By ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pabrik/master/ekspedisi/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"master",
+						"ekspedisi",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Ekspedisi",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"namaEkspedisi\" : \"GoSend\",\r\n    \"hargaEkspedisi\" : 9000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/pabrik/master/ekspedisi",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"master",
+						"ekspedisi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Ekspedisi",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"namaEkspedisi\" : \"GrabExpress\",\r\n    \"hargaEkspedisi\" : 11000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/pabrik/master/ekspedisi/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"master",
+						"ekspedisi",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Ekspedisi Status",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/pabrik/master/ekspedisi/status/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"master",
+						"ekspedisi",
+						"status",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Produksi",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pabrik/produksi?limit=1&offset=0",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"produksi"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "1"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Produksi Available",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pabrik/produksi/available",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"produksi",
+						"available"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Produksi By ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pabrik/produksi/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"produksi",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Produksi",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n    \"tglTransaksi\": \"2020-12-23\",\r\n    \"totalKm\": 78.5,\r\n    \"idEkspedisi\": \"1\",\r\n    \"idPackaging\": \"1\",\r\n    \"bahanList\": [\r\n        {\r\n            \"idBOP\": \"1\",\r\n            \"idBahan\": \"119a0f1b-1373-49d4-95b3-143c02b90155\",\r\n            \"qtyPemakaian\": 1000\r\n        },\r\n        {\r\n            \"idBOP\": \"1\",\r\n            \"idBahan\": \"7f4a98f5-f221-415c-9319-e469580b22f3\",\r\n            \"qtyPemakaian\": 1000\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/pabrik/produksi",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"produksi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Produksi",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bahanList\": [\r\n        {\r\n        \"idBahan\" : \"119a0f1b-1373-49d4-95b3-143c02b90155\",\r\n        \"qtyPemakaian\" : \"2000\"\r\n        }\r\n]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/pabrik/produksi/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"produksi",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Produksi Status",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pabrik/produksi/status/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"produksi",
+						"status",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Laporan",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pabrik/laporan?limit=2&offset=0",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"laporan"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "2"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Laporan By ID BOP",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pabrik/laporan/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"laporan",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Laporan By Date",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pabrik/laporan?tanggalMulai=\"2020-12-23\"&tanggalAkhir=\"2020-12-24\"",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pabrik",
+						"laporan"
+					],
+					"query": [
+						{
+							"key": "tanggalMulai",
+							"value": "\"2020-12-23\""
+						},
+						{
+							"key": "tanggalAkhir",
+							"value": "\"2020-12-24\""
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

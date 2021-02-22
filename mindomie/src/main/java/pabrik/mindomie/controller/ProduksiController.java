@@ -91,8 +91,19 @@ public class ProduksiController {
             logger.error("Tidak dapat mengubah Produksi. Produksi dengan idBOP {} tidak ada.", idBOP);
             return new ResponseEntity<>(new CustomErrorType("Tidak dapat mengubah Produksi. Produksi dengan idBOP " + idBOP + " tidak ada."),
                     HttpStatus.NOT_FOUND);
-        }else {
+        } else {
             try {
+                List<Bahan> bahanList = produksi.getBahanList();
+                for (int i = 0; i < bahanList.size(); i++) {
+                    Bahan bahan = bahanService.findById(produksi.getBahanList().get(i).getIdBahan());
+                    if (produksi.getBahanList().get(i).getQtyPemakaian() > bahan.getQty()) {
+                        logger.error("Terdapat stok Bahan yang tidak tersedia");
+                        return new ResponseEntity<>(new CustomErrorType("Tidak dapat membuat produksi. Bahan dengan id " + produksi.getBahanList().get(i).getIdBahan() + " Tidak Tersedia."), HttpStatus.CONFLICT);
+                    } else if (!bahan.isStatusBahan()) {
+                        logger.error("Terdapat Bahan yang tidak tersedia!");
+                        return new ResponseEntity<>(new CustomErrorType("Tidak dapat membuat produksi. Bahan dengan id " + produksi.getBahanList().get(i).getIdBahan() + " Tidak Tersedia."), HttpStatus.CONFLICT);
+                    }
+                }
                 produksiService.updateProduksi(produksi);
                 return new ResponseEntity<>("Data Berhasil Di Update",HttpStatus.OK);
             } catch (Exception e) {

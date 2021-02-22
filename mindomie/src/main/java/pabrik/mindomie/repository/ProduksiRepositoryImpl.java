@@ -35,7 +35,7 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
 
         for (Bahan bahan : produksi.getBahanList()){
             String uuid = String.valueOf(UUID.randomUUID());
-            jdbcTemplate.update("INSERT INTO produksiDetail (idDetail, idBOP, idBahan, qtyPemakaian) VALUES (?,?,?)",
+            jdbcTemplate.update("INSERT INTO produksiDetail (idDetail, idBOP, idBahan, qtyPemakaian) VALUES (?,?,?,?)",
                     uuid, produksi.getIdBOP(), bahan.getIdBahan(), bahan.getQtyPemakaian());
             jdbcTemplate.update("UPDATE bahan a JOIN produksiDetail b SET a.qty=a.qty-b.qtyPemakaian WHERE a.idBahan=? AND b.idDetail=?",
                     bahan.getIdBahan(), uuid);
