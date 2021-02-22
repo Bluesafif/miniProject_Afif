@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import pabrik.mindomie.model.Bahan;
 import pabrik.mindomie.model.Produksi;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -59,10 +58,10 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
                             new Bahan(
                                     rs.getString("idBahan"),
                                     rs.getString("namaBahan"),
-                                    rs.getInt("qty"),
+                                    rs.getFloat("qty"),
                                     rs.getInt("hargaBahan"),
                                     rs.getBoolean("statusBahan"),
-                                    rs.getInt("qtyPemakaian")
+                                    rs.getFloat("qtyPemakaian")
                             )
             );
             produksi.setBahanList(bahanList);
@@ -92,10 +91,10 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
                         new Bahan(
                                 rs.getString("idBahan"),
                                 rs.getString("namaBahan"),
-                                rs.getInt("qty"),
+                                rs.getFloat("qty"),
                                 rs.getInt("hargaBahan"),
                                 rs.getBoolean("statusBahan"),
-                                rs.getInt("qtyPemakaian")
+                                rs.getFloat("qtyPemakaian")
                         )
         ));
         return produksi;
@@ -129,10 +128,10 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
                             new Bahan(
                                     rs.getString("idBahan"),
                                     rs.getString("namaBahan"),
-                                    rs.getInt("qty"),
+                                    rs.getFloat("qty"),
                                     rs.getInt("hargaBahan"),
                                     rs.getBoolean("statusBahan"),
-                                    rs.getInt("qtyPemakaian")
+                                    rs.getFloat("qtyPemakaian")
                             )
             );
             produksi.setBahanList(bahanList);
@@ -143,28 +142,39 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
     @Override
     public List<Produksi> findAllLaporan() {
         List<Produksi> laporanList;
-        laporanList = jdbcTemplate.query("SELECT idBOP, tglTransaksi, totalKM, idEkspedisi, idPackaging FROM produksi",
+        laporanList = jdbcTemplate.query("SELECT a.*, b.hargaEkspedisi*a.totalKm AS \"hargaTotalEkspedisi\", c.hargaPackaging, " +
+                        "(SUM((b.hargaEkspedisi*a.totalKm)+c.hargaPackaging+((d.qtyPemakaian*0.001)*e.hargaBahan))) AS \"totalBiayaProduksi\" " +
+                        "FROM produksi a JOIN ekspedisi b JOIN packaging c JOIN produksiDetail d JOIN bahan e " +
+                        "ON a.idEkspedisi=b.idEkspedisi AND a.idPackaging=c.idPackaging AND a.idBOP=d.idBOP AND d.idBahan=e.idBahan " +
+                        "GROUP BY a.idBOP",
                 (rs, rowNum)->
                         new Produksi(
                                 rs.getString("idBOP"),
                                 rs.getDate("tglTransaksi"),
                                 rs.getFloat("totalKm"),
                                 rs.getString("idEkspedisi"),
-                                rs.getString("idPackaging")
+                                rs.getString("idPackaging"),
+                                rs.getBoolean("statusProduksi"),
+                                rs.getFloat("hargaTotalEkspedisi"),
+                                rs.getFloat("hargaPackaging"),
+                                rs.getFloat("totalBiayaProduksi")
                         )
         );
         for (Produksi laporan : laporanList){
             List<Bahan> bahanList = new ArrayList<>();
             String idBop = laporan.getIdBOP();
-            bahanList = jdbcTemplate.query("SELECT b.*, a.qtyPemakaian FROM produksiDetail a JOIN bahan b on a.idBahan=b.idBahan WHERE a.idBOP='"+idBop+"'",
+            bahanList = jdbcTemplate.query("SELECT b.idBahan, b.namaBahan, b.qty*0.001 AS \"qty\", b.hargaBahan," +
+                            "b.statusBahan, a.qtyPemakaian*0.001 AS \"qtyPemakaian\", (a.qtyPemakaian*0.001)*b.hargaBahan AS \"totalHargaBahan\"" +
+                            "FROM produksiDetail a JOIN bahan b ON a.idBahan=b.idBahan WHERE a.idBOP='"+idBop+"'",
                     (rs, rowNum)->
                             new Bahan(
                                     rs.getString("idBahan"),
                                     rs.getString("namaBahan"),
-                                    rs.getInt("qty"),
+                                    rs.getFloat("qty"),
                                     rs.getInt("hargaBahan"),
                                     rs.getBoolean("statusBahan"),
-                                    rs.getInt("qtyPemakaian")
+                                    rs.getFloat("qtyPemakaian"),
+                                    rs.getFloat("totalHargaBahan")
                             )
             );
             laporan.setBahanList(bahanList);
@@ -175,7 +185,11 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
     @Override
     public Produksi findAllLaporanById(String idBOP) {
         Produksi produksi;
-        produksi = jdbcTemplate.queryForObject("SELECT * FROM produksi WHERE idBOP=?",
+        produksi = jdbcTemplate.queryForObject("SELECT a.*, b.hargaEkspedisi*a.totalKm AS \"hargaTotalEkspedisi\", c.hargaPackaging, " +
+                        "(SUM((b.hargaEkspedisi*a.totalKm)+c.hargaPackaging+((d.qtyPemakaian*0.001)*e.hargaBahan))) AS \"totalBiayaProduksi\" " +
+                        "FROM produksi a JOIN ekspedisi b JOIN packaging c JOIN produksiDetail d JOIN bahan e " +
+                        "ON a.idEkspedisi=b.idEkspedisi AND a.idPackaging=c.idPackaging AND a.idBOP=d.idBOP AND d.idBahan=e.idBahan " +
+                        "WHERE a.idBOP=?",
                 new Object[]{idBOP},
                 (rs, rowNum)->
                         new Produksi(
@@ -184,20 +198,26 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
                                 rs.getFloat("totalKm"),
                                 rs.getString("idEkspedisi"),
                                 rs.getString("idPackaging"),
-                                rs.getBoolean("statusProduksi")
+                                rs.getBoolean("statusProduksi"),
+                                rs.getFloat("hargaTotalEkspedisi"),
+                                rs.getFloat("hargaPackaging"),
+                                rs.getFloat("totalBiayaProduksi")
                         )
         );
 
-        produksi.setBahanList(jdbcTemplate.query("SELECT b.*, a.qtyPemakaian FROM produksiDetail a JOIN bahan b on a.idBahan=b.idBahan WHERE a.idBOP=?",
+        produksi.setBahanList(jdbcTemplate.query("SELECT b.idBahan, b.namaBahan, b.qty*0.001 AS \"qty\", b.hargaBahan," +
+                        "b.statusBahan, a.qtyPemakaian*0.001 AS \"qtyPemakaian\", (a.qtyPemakaian*0.001)*b.hargaBahan AS \"totalHargaBahan\"" +
+                        "FROM produksiDetail a JOIN bahan b ON a.idBahan=b.idBahan WHERE a.idBOP=?",
                 new Object[]{idBOP},
                 (rs, rowNum)->
                         new Bahan(
                                 rs.getString("idBahan"),
                                 rs.getString("namaBahan"),
-                                rs.getInt("qty"),
+                                rs.getFloat("qty"),
                                 rs.getInt("hargaBahan"),
                                 rs.getBoolean("statusBahan"),
-                                rs.getInt("qtyPemakaian")
+                                rs.getFloat("qtyPemakaian"),
+                                rs.getFloat("totalHargaBahan")
                         )
         ));
         return produksi;

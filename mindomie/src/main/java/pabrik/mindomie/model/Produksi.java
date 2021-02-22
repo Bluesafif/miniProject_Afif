@@ -11,6 +11,9 @@ public class Produksi {
     private String idPackaging;
     private boolean statusProduksi;
     List<Bahan> bahanList;
+    private float hargaTotalEkspedisi;
+    private float hargaPackaging;
+    private float totalBiayaProduksi;
 
     public Produksi() {
     }
@@ -30,6 +33,18 @@ public class Produksi {
         this.totalKm = totalKm;
         this.idEkspedisi = idEkspedisi;
         this.idPackaging = idPackaging;
+    }
+
+    public Produksi(String idBOP, Date tglTransaksi, float totalKm, String idEkspedisi, String idPackaging, boolean statusProduksi, float hargaTotalEkspedisi, float hargaPackaging, float totalBiayaProduksi) {
+        this.idBOP = idBOP;
+        this.tglTransaksi = tglTransaksi;
+        this.totalKm = totalKm;
+        this.idEkspedisi = idEkspedisi;
+        this.idPackaging = idPackaging;
+        this.statusProduksi = statusProduksi;
+        this.hargaTotalEkspedisi = hargaTotalEkspedisi;
+        this.hargaPackaging = hargaPackaging;
+        this.totalBiayaProduksi = totalBiayaProduksi;
     }
 
     public String getIdBOP() {
@@ -86,5 +101,29 @@ public class Produksi {
 
     public void setBahanList(List<Bahan> bahanList) {
         this.bahanList = bahanList;
+    }
+
+    public float getHargaTotalEkspedisi() {
+        return hargaTotalEkspedisi;
+    }
+
+    public void setHargaTotalEkspedisi(float hargaTotalEkspedisi) {
+        this.hargaTotalEkspedisi = hargaTotalEkspedisi;
+    }
+
+    public float getHargaPackaging() {
+        return hargaPackaging;
+    }
+
+    public void setHargaPackaging(float hargaPackaging) {
+        this.hargaPackaging = hargaPackaging;
+    }
+
+    public float getTotalBiayaProduksi() {
+        return totalBiayaProduksi;
+    }
+
+    public void setTotalBiayaProduksi(float totalBiayaProduksi) {
+        this.totalBiayaProduksi = totalBiayaProduksi;
     }
 }

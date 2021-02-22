@@ -3,15 +3,16 @@ package pabrik.mindomie.model;
 public class Bahan {
     private String idBahan;
     private String namaBahan;
-    private int qty;
+    private float qty;
     private int hargaBahan;
     private boolean statusBahan;
-    private int qtyPemakaian;
+    private float qtyPemakaian;
+    private float totalHargaBahan;
 
     public Bahan() {
     }
 
-    public Bahan(String idBahan, String namaBahan, int qty, int hargaBahan, boolean statusBahan, int qtyPemakaian) {
+    public Bahan(String idBahan, String namaBahan, float qty, int hargaBahan, boolean statusBahan, float qtyPemakaian) {
         this.idBahan = idBahan;
         this.namaBahan = namaBahan;
         this.qty = qty;
@@ -20,12 +21,22 @@ public class Bahan {
         this.qtyPemakaian = qtyPemakaian;
     }
 
-    public Bahan(String idBahan, String namaBahan, int qty, int hargaBahan, boolean statusBahan) {
+    public Bahan(String idBahan, String namaBahan, float qty, int hargaBahan, boolean statusBahan) {
         this.idBahan = idBahan;
         this.namaBahan = namaBahan;
         this.qty = qty;
         this.hargaBahan = hargaBahan;
         this.statusBahan = statusBahan;
+    }
+
+    public Bahan(String idBahan, String namaBahan, float qty, int hargaBahan, boolean statusBahan, float qtyPemakaian, float totalHargaBahan) {
+        this.idBahan = idBahan;
+        this.namaBahan = namaBahan;
+        this.qty = qty;
+        this.hargaBahan = hargaBahan;
+        this.statusBahan = statusBahan;
+        this.qtyPemakaian = qtyPemakaian;
+        this.totalHargaBahan = totalHargaBahan;
     }
 
     public String getIdBahan() {
@@ -44,11 +55,11 @@ public class Bahan {
         this.namaBahan = namaBahan;
     }
 
-    public int getQty() {
+    public float getQty() {
         return qty;
     }
 
-    public void setQty(int qty) {
+    public void setQty(float qty) {
         this.qty = qty;
     }
 
@@ -68,11 +79,19 @@ public class Bahan {
         this.statusBahan = statusBahan;
     }
 
-    public int getQtyPemakaian() {
+    public float getQtyPemakaian() {
         return qtyPemakaian;
     }
 
-    public void setQtyPemakaian(int qtyPemakaian) {
+    public void setQtyPemakaian(float qtyPemakaian) {
         this.qtyPemakaian = qtyPemakaian;
+    }
+
+    public float getTotalHargaBahan() {
+        return totalHargaBahan;
+    }
+
+    public void setTotalHargaBahan(float totalHargaBahan) {
+        this.totalHargaBahan = totalHargaBahan;
     }
 }
