@@ -94,4 +94,17 @@ public class Bahan {
     public void setTotalHargaBahan(float totalHargaBahan) {
         this.totalHargaBahan = totalHargaBahan;
     }
+
+    @Override
+    public String toString() {
+        return "Bahan{" +
+                "idBahan='" + idBahan + '\'' +
+                ", namaBahan='" + namaBahan + '\'' +
+                ", qty=" + qty +
+                ", hargaBahan=" + hargaBahan +
+                ", statusBahan=" + statusBahan +
+                ", qtyPemakaian=" + qtyPemakaian +
+                ", totalHargaBahan=" + totalHargaBahan +
+                '}';
+    }
 }

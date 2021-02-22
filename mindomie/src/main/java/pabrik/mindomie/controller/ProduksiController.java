@@ -160,9 +160,9 @@ public class ProduksiController {
         }
     }
 
-    //------------------Get All Report Data By Date------------------//
+    //------------------Get Report Data By Date------------------//
 
-    @RequestMapping(value = "/laporan", method = RequestMethod.GET)
+    @RequestMapping(value = "/laporan/", method = RequestMethod.GET)
     public ResponseEntity<?> listLaporanByDate(@RequestParam Map<Object, Object> tanggal){
         logger.info("Mencari laporan berdasarkan tanggal.");
         String tanggalSelect = "(tglTransaksi BETWEEN '" + tanggal.get("tanggalMulai") + "' AND '" + tanggal.get("tanggalAkhir") + "')";

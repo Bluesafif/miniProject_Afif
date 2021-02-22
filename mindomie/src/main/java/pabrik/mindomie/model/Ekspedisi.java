@@ -44,4 +44,14 @@ public class Ekspedisi {
     public void setStatusEkspedisi(boolean statusEkspedisi) {
         this.statusEkspedisi = statusEkspedisi;
     }
+
+    @Override
+    public String toString() {
+        return "Ekspedisi{" +
+                "idEkspedisi='" + idEkspedisi + '\'' +
+                ", namaEkspedisi='" + namaEkspedisi + '\'' +
+                ", hargaEkspedisi=" + hargaEkspedisi +
+                ", statusEkspedisi=" + statusEkspedisi +
+                '}';
+    }
 }

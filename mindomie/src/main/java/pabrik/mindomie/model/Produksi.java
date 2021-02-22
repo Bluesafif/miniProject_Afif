@@ -126,4 +126,20 @@ public class Produksi {
     public void setTotalBiayaProduksi(float totalBiayaProduksi) {
         this.totalBiayaProduksi = totalBiayaProduksi;
     }
+
+    @Override
+    public String toString() {
+        return "Produksi{" +
+                "idBOP='" + idBOP + '\'' +
+                ", tglTransaksi=" + tglTransaksi +
+                ", totalKm=" + totalKm +
+                ", idEkspedisi='" + idEkspedisi + '\'' +
+                ", idPackaging='" + idPackaging + '\'' +
+                ", statusProduksi=" + statusProduksi +
+                ", bahanList=" + bahanList +
+                ", hargaTotalEkspedisi=" + hargaTotalEkspedisi +
+                ", hargaPackaging=" + hargaPackaging +
+                ", totalBiayaProduksi=" + totalBiayaProduksi +
+                '}';
+    }
 }

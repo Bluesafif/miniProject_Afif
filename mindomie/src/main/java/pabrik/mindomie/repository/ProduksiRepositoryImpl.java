@@ -235,8 +235,7 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
                         "(SUM((b.hargaEkspedisi*a.totalKm)+c.hargaPackaging+((d.qtyPemakaian*0.001)*e.hargaBahan))) AS \"totalBiayaProduksi\" " +
                         "FROM produksi a JOIN ekspedisi b JOIN packaging c JOIN produksiDetail d JOIN bahan e " +
                         "ON a.idEkspedisi=b.idEkspedisi AND a.idPackaging=c.idPackaging AND a.idBOP=d.idBOP AND d.idBahan=e.idBahan " +
-                        "WHERE ",
-                new Object[]{tanggal},
+                        "WHERE "+tanggal,
                 (rs, rowNum)->
                         new Produksi(
                                 rs.getString("idBOP"),

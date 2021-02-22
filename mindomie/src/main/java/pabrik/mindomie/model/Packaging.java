@@ -44,4 +44,14 @@ public class Packaging {
     public void setStatusPackaging(boolean statusPackaging) {
         this.statusPackaging = statusPackaging;
     }
+
+    @Override
+    public String toString() {
+        return "Packaging{" +
+                "idPackaging='" + idPackaging + '\'' +
+                ", namaPackaging='" + namaPackaging + '\'' +
+                ", hargaPackaging=" + hargaPackaging +
+                ", statusPackaging=" + statusPackaging +
+                '}';
+    }
 }
