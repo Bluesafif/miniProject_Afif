@@ -18,4 +18,6 @@ public interface ProduksiRepository {
     List<Produksi> findAllAvailable();
 
     List<Produksi> findAllLaporan();
+
+    Produksi findAllLaporanById(String idBOP);
 }

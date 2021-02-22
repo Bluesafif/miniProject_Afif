@@ -64,4 +64,16 @@ public class ProduksiServiceImpl implements ProduksiService {
         List<Produksi> laporanList = produksiRepository.findAllLaporan();
         return laporanList;
     }
+
+    @Override
+    public Produksi findAllLaporanById(String idBOP) {
+        Produksi laporan;
+        try{
+            laporan = produksiRepository.findAllLaporanById(idBOP);
+        }catch (EmptyResultDataAccessException e){
+            System.out.println(e);
+            laporan = null;
+        }
+        return laporan;
+    }
 }

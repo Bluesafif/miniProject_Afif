@@ -18,14 +18,17 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
 
     @Override
     public void saveProduksi(Produksi produksi) {
-        String uuid = String.valueOf(UUID.randomUUID());
-        jdbcTemplate.update("INSERT INTO produksi (idBOP, tglTransaksi, totalKm, idEkspedisi, idPackaging, statusProduksi) VALUES (?,?,?,?,?,0)",
-                uuid, produksi.getTglProduksi(), produksi.getTotalKm(), produksi.getIdEkspedisi(), produksi.getIdPackaging());
 
         for (Bahan bahan : produksi.getBahanList()){
+            String uuid = String.valueOf(UUID.randomUUID());
+            jdbcTemplate.update("INSERT INTO produksi (idBOP, tglTransaksi, totalKm, idEkspedisi, idPackaging, statusProduksi) VALUES (?,?,?,?,?,0)",
+                    uuid, produksi.getTglTransaksi(), produksi.getTotalKm(), produksi.getIdEkspedisi(), produksi.getIdPackaging());
             String uuid2 = String.valueOf(UUID.randomUUID());
             jdbcTemplate.update("INSERT INTO produksiDetail (idDetail, idBOP, idBahan, qtyPemakaian) VALUES (?,?,?,?)",
-                    uuid2, produksi.getIdBOP(), bahan.getIdBahan(), bahan.getQtyPemakaian());
+                    uuid2, uuid, bahan.getIdBahan(), bahan.getQtyPemakaian());
+            jdbcTemplate.update("UPDATE bahan a JOIN produksiDetail b SET a.qty=a.qty-b.qtyPemakaian WHERE a.idBahan=? AND b.idDetail=?",
+                    bahan.getIdBahan(), uuid2);
+
         }
     }
 
@@ -168,4 +171,38 @@ public class ProduksiRepositoryImpl implements ProduksiRepository {
         }
         return laporanList;
     }
+
+    @Override
+    public Produksi findAllLaporanById(String idBOP) {
+        Produksi produksi;
+        produksi = jdbcTemplate.queryForObject("SELECT * FROM produksi WHERE idBOP=?",
+                new Object[]{idBOP},
+                (rs, rowNum)->
+                        new Produksi(
+                                rs.getString("idBOP"),
+                                rs.getDate("tglTransaksi"),
+                                rs.getFloat("totalKm"),
+                                rs.getString("idEkspedisi"),
+                                rs.getString("idPackaging"),
+                                rs.getBoolean("statusProduksi")
+                        )
+        );
+
+        produksi.setBahanList(jdbcTemplate.query("SELECT b.*, a.qtyPemakaian FROM produksiDetail a JOIN bahan b on a.idBahan=b.idBahan WHERE a.idBOP=?",
+                new Object[]{idBOP},
+                (rs, rowNum)->
+                        new Bahan(
+                                rs.getString("idBahan"),
+                                rs.getString("namaBahan"),
+                                rs.getInt("qty"),
+                                rs.getInt("hargaBahan"),
+                                rs.getBoolean("statusBahan"),
+                                rs.getInt("qtyPemakaian")
+                        )
+        ));
+        return produksi;
+    }
+
+//    @Override
+
 }

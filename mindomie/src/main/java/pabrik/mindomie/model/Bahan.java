@@ -8,6 +8,9 @@ public class Bahan {
     private boolean statusBahan;
     private int qtyPemakaian;
 
+    public Bahan() {
+    }
+
     public Bahan(String idBahan, String namaBahan, int qty, int hargaBahan, boolean statusBahan, int qtyPemakaian) {
         this.idBahan = idBahan;
         this.namaBahan = namaBahan;

@@ -43,8 +43,9 @@ public class ProduksiController {
         List<Produksi> produksiListAvailable = produksiService.findAllAvailable();
         if (produksiListAvailable.isEmpty()) {
             return new ResponseEntity<>(produksiListAvailable, HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>(produksiListAvailable, HttpStatus.OK);
         }
-        return new ResponseEntity<>(produksiListAvailable, HttpStatus.OK);
     }
 
     //------------------Save a Data------------------//
@@ -53,14 +54,20 @@ public class ProduksiController {
     public ResponseEntity<?> saveBahan(@RequestBody Produksi produksi){
         logger.info("Menyimpan Produksi : {} ", produksi);
 
-//        for (int i = 0; i<produksi.getBahanList().size(); i++) {
-//            if (produksi. == false) {
-//                logger.error("Tidak dapat menyimpan data produksi karena status bahan sudah kadaluarsa");
-//                return new ResponseEntity<>(new CustomErrorType("Tidak dapat menyimpan data produksi        karena status bahan sudah kadaluarsa"),
-//                        HttpStatus.CONFLICT);
-//            }
-//        }
-        produksiService.saveProduksi(produksi);
+        List<Bahan> bahanList = produksi.getBahanList();
+
+        for (int i = 0; i < bahanList.size(); i++) {
+            Bahan bahan = bahanService.findById(produksi.getBahanList().get(i).getIdBahan());
+            if (produksi.getBahanList().get(i).getQtyPemakaian() > bahan.getQty()) {
+                logger.error("Terdapat stok Bahan yang tidak tersedia");
+                return new ResponseEntity<>(new CustomErrorType("Tidak dapat membuat produksi. Bahan dengan id " + produksi.getBahanList().get(i).getIdBahan() + " Tidak Tersedia."), HttpStatus.CONFLICT);
+            } else if (!bahan.isStatusBahan()) {
+                logger.error("Terdapat Bahan yang tidak tersedia!");
+                return new ResponseEntity<>(new CustomErrorType("Tidak dapat membuat produksi. Bahan dengan id " + produksi.getBahanList().get(i).getIdBahan() + " Tidak Tersedia."), HttpStatus.CONFLICT);
+            }else{
+                produksiService.saveProduksi(produksi);
+            }
+        }
 
         return new ResponseEntity<>("Data Berhasil Ditambahkan!", HttpStatus.CREATED);
     }
@@ -69,29 +76,30 @@ public class ProduksiController {
 
     //------------------Get One Data Only------------------//
 
-    @RequestMapping(value = "/produksi/{idProduksi}", method = RequestMethod.GET)
-    public ResponseEntity<?> getProduksi(@PathVariable("idProduksi") String idProduksi) {
-        logger.info("Mencari BOP dengan id {}", idProduksi);
-        Produksi produksi = produksiService.findById(idProduksi);
+    @RequestMapping(value = "/produksi/{idBOP}", method = RequestMethod.GET)
+    public ResponseEntity<?> getProduksi(@PathVariable("idBOP") String idBOP) {
+        logger.info("Mencari BOP dengan id {}", idBOP);
+        Produksi produksi = produksiService.findById(idBOP);
         if (produksi == null) {
-            logger.error("BOP dengan id {} tidak ada.", idProduksi);
-            return new ResponseEntity<>(new CustomErrorType("BOP dengan id " + idProduksi  + " tidak ada."), HttpStatus.NOT_FOUND);
+            logger.error("BOP dengan id {} tidak ada.", idBOP);
+            return new ResponseEntity<>(new CustomErrorType("BOP dengan id " + idBOP  + " tidak ada."), HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>(produksi, HttpStatus.OK);
         }
-        return new ResponseEntity<>(produksi, HttpStatus.OK);
     }
 
     //------------------Switching Status One Data Only------------------//
 
-    @RequestMapping(value = "/produksi/status/{idProduksi}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateStatusBahan(@PathVariable("idProduksi") String idProduksi) {
-        logger.info("Mengubah status produksi dengan idBOP {}", idProduksi);
+    @RequestMapping(value = "/produksi/status/{idBOP}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateStatusBahan(@PathVariable("idBOP") String idBOP) {
+        logger.info("Mengubah status produksi dengan idBOP {}", idBOP);
 
-        Produksi produksi1 = produksiService.findById(idProduksi);
+        Produksi produksi1 = produksiService.findById(idBOP);
 
         if (produksi1 == null) {
-            logger.error("Tidak dapat mengubah status Produksi. Produksi dengan idBOP {} tidak tersedia.", idProduksi);
+            logger.error("Tidak dapat mengubah status Produksi. Produksi dengan idBOP {} tidak tersedia.", idBOP);
             return new ResponseEntity<>(new CustomErrorType("Tidak dapat mengubah status produksi. Produksi dengan idBOP "
-                    + idProduksi + " tidak tersedia."),
+                    + idBOP + " tidak tersedia."),
                     HttpStatus.NOT_FOUND);
         }
 
@@ -112,7 +120,22 @@ public class ProduksiController {
         List<Produksi> laporanList = produksiService.findAllLaporan();
         if (laporanList.isEmpty()) {
             return new ResponseEntity<>(laporanList, HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>(laporanList, HttpStatus.OK);
         }
-        return new ResponseEntity<>(laporanList, HttpStatus.OK);
+    }
+
+    //------------------Get Only One Report Data------------------//
+
+    @RequestMapping(value = "/laporan/{idBOP}", method = RequestMethod.GET)
+    public ResponseEntity<?> listLaporanByIdBOP(@PathVariable("idBOP") String idBOP){
+        logger.info("Mencari laporan dengan idBOP {}", idBOP);
+        Produksi laporan = produksiService.findAllLaporanById(idBOP);
+        if (laporan == null) {
+            logger.error("Laporan dengan idBOP {} tidak ada.", idBOP);
+            return new ResponseEntity<>(new CustomErrorType("Laporan dengan idBOP " + idBOP  + " tidak ada."), HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>(laporan, HttpStatus.OK);
+        }
     }
 }
